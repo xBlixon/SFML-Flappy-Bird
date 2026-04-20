@@ -3,10 +3,11 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+
+#include <utils/ISConvert.hpp>
 
 int main() {
     ImVec4 color(0.f, 0.8f, 0.f, 1.f);
@@ -36,12 +37,7 @@ int main() {
 
         window.clear();
 
-        shape.setFillColor(sf::Color(
-            static_cast<std::uint8_t>(color.x * 255),
-            static_cast<std::uint8_t>(color.y * 255),
-            static_cast<std::uint8_t>(color.z * 255),
-            static_cast<std::uint8_t>(color.w * 255)
-        ));
+        shape.setFillColor(ISConvert::imVec4ToSfColor(color));
 
         window.draw(shape);
         ImGui::SFML::Render(window);

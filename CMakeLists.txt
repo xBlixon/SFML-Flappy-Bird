@@ -5,8 +5,11 @@ add_subdirectory(dependencies)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(main src/main.cpp)
-target_include_directories(main PRIVATE ${imgui_SOURCE_DIR})
+add_executable(main 
+	src/main.cpp
+	src/utils/ISConvert.hpp
+)
+target_include_directories(main PRIVATE ${imgui_SOURCE_DIR} src)
 target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE SFML::Graphics SFML::Audio)
 
