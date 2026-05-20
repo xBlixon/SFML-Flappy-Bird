@@ -13,6 +13,7 @@ add_executable(main
 	src/game/ScoreManager.h
 	src/game/State.h
 	src/game/UserEventsHandler.h
+	src/game/UserEventsHandler.cpp
 	src/game/GameObject.h
 	src/game/Bird.h
 	src/game/Pipe.h

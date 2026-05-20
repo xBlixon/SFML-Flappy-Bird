@@ -16,22 +16,22 @@
 
 class GameEngine
 {
-protected:
+public:
 	sf::RenderWindow window;
 	sf::View view;
 	EntityManager entityManager;
 	ScoreManager scoreManager;
     UserEventsHandler userEventsHandler;
 	State state;
-public:
 
 	GameEngine()
         : state(State::MainMenu), 
-        userEventsHandler(&window, &view)
+        userEventsHandler(this)
     {
 
 		window.create(sf::VideoMode({ 640, 480 }), "ImGui + SFML = <3");
 		window.setFramerateLimit(60);
+        window.setKeyRepeatEnabled(false);
 
         view = sf::View(sf::FloatRect({ 0.f, 0.f }, { 640.f, 480.f }));
         window.setView(view);
@@ -48,7 +48,6 @@ public:
         while (window.isOpen()) {
 
             while (const auto event = window.pollEvent()) {
-                ImGui::SFML::ProcessEvent(window, *event);
 				userEventsHandler.handle(*event);
             }
             window.clear();
@@ -63,6 +62,8 @@ public:
 
             shape.setFillColor(ISConvert::imVec4ToSfColor(color));
             window.draw(shape);
+
+			entityManager.drawAll(window);
 
             ImGui::SFML::Render(window);
             window.display();

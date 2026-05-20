@@ -5,9 +5,22 @@
 
 class GameObject {
 protected:
-	sf::Vector2f position;
-	sf::Sprite sprite;
+	sf::RectangleShape sprite;
 public:
 	virtual void update(float dt) = 0;
-	virtual void draw(sf::RenderWindow& window) = 0;
+	//virtual void draw(sf::RenderWindow& window) = 0;
+
+	void draw(sf::RenderWindow& window) {
+		window.draw(sprite);
+	}
+
+	sf::Vector2f getPosition() const {
+		return sprite.getPosition();
+	};
+
+	void setPosition(sf::Vector2f pos) {
+		sprite.setPosition(pos);
+	};
+
+	//virtual void move(sf::Vector2f offset) = 0;
 };
