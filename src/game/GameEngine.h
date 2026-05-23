@@ -30,11 +30,11 @@ public:
         userEventsHandler(this)
     {
 
-		window.create(sf::VideoMode({ 640, 480 }), "Flappy Bird Clone");
+		window.create(sf::VideoMode({ 1280, 720 }), "Flappy Bird Clone");
 		window.setFramerateLimit(60);
         window.setKeyRepeatEnabled(false);
 
-        view = sf::View(sf::FloatRect({ 0.f, 0.f }, { 640.f, 480.f }));
+        view = sf::View(sf::FloatRect({ 0.f, 0.f }, { 1280, 720 }));
         window.setView(view);
     }
 
