@@ -30,7 +30,7 @@ public:
         userEventsHandler(this)
     {
 
-		window.create(sf::VideoMode({ 640, 480 }), "ImGui + SFML = <3");
+		window.create(sf::VideoMode({ 640, 480 }), "Flappy Bird Clone");
 		window.setFramerateLimit(60);
         window.setKeyRepeatEnabled(false);
 
