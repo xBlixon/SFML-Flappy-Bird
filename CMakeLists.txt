@@ -17,6 +17,8 @@ add_executable(main
 	src/game/GameObject.h
 	src/game/Bird.h
 	src/game/Pipe.h
+	src/utils/ImGuiDebug.h
+	src/utils/ImGuiDebug.cpp
 )
 target_include_directories(main PRIVATE ${imgui_SOURCE_DIR} src)
 target_compile_features(main PRIVATE cxx_std_20)

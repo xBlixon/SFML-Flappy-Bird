@@ -4,9 +4,9 @@
 
 class Bird : public GameObject
 {
+public:
 	float verticalVelocity = 0.f;
 
-public:
 	Bird() {
 		sprite.setSize({ 20.f, 20.f });
 		sprite.setFillColor(sf::Color::Yellow);

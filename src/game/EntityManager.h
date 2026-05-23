@@ -43,6 +43,14 @@ public:
 		}
 	}
 
+	Bird& getBird() {
+		return bird;
+	}
+
+	std::array<Pipe, 4>& getPipes() {
+		return pipes;
+	}
+
 private:
 	std::array<Pipe, 4>::iterator getCloserPipe() {
 		std::array<Pipe, 4>::iterator closerPipe = pipes.begin();

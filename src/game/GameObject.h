@@ -4,9 +4,9 @@
 #include <SFML/Graphics.hpp>
 
 class GameObject {
-protected:
-	sf::RectangleShape sprite;
 public:
+	sf::RectangleShape sprite;
+
 	virtual void update(float dt) = 0;
 	//virtual void draw(sf::RenderWindow& window) = 0;
 

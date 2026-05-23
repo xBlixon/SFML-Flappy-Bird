@@ -13,6 +13,7 @@
 #include <game/UserEventsHandler.h>
 
 #include <utils/ISConvert.h>
+#include <utils/ImGuiDebug.h>
 
 class GameEngine
 {
@@ -38,9 +39,11 @@ public:
     }
 
 	void run() {
-        ImGui::SFML::Init(window);
-
         sf::Clock deltaClock;
+		state = State::Paused;
+
+        ImGuiDebug debug = ImGuiDebug(this);
+
         while (window.isOpen()) {
 
             while (const auto event = window.pollEvent()) {
@@ -50,16 +53,14 @@ public:
 
 			sf::Time dt = deltaClock.restart();
 
-            {
-                ImGui::SFML::Update(window, dt);
+			debug.show(dt);
 
-                ImGui::ShowDemoWindow();
-
-                ImGui::SFML::Render(window);
+            if (state == State::Paused) {
+                entityManager.updateAll(dt.asSeconds());
             }
-
-            entityManager.updateAll(dt.asSeconds());
             entityManager.drawAll(window);
+
+
             window.display();
         }
 
