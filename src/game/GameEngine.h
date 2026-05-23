@@ -53,7 +53,7 @@ public:
 
 			sf::Time dt = deltaClock.restart();
 
-            if (state == State::Paused) {
+            if (state == State::Playing) {
                 entityManager.updateAll(dt.asSeconds());
             }
             entityManager.drawAll(window);
