@@ -16,4 +16,8 @@ public:
 	void show(sf::Time dt);
 
 	void pauseButton();
+
+	void pipeGap();
+
+	void birdGravity();
 };

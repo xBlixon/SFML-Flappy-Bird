@@ -11,6 +11,10 @@ private:
 	Bird bird;
 	std::array<Pipe, 4> pipes;
 public:
+	float BottomPipeY;
+	float jumpVelocity = 50.f;
+	float &gravityForce;
+
 	EntityManager()
 		: pipes{
 			Pipe::TopPipe(true),
@@ -18,8 +22,10 @@ public:
 
 			Pipe::TopPipe(false),
 			Pipe::BottomPipe(false)
-		  }
-	{}
+		}, gravityForce(bird.gravityForce)
+	{
+		BottomPipeY = pipes[1].getPosition().y;
+	}
 
 	void drawAll(sf::RenderWindow& window) {
 		bird.draw(window);
@@ -31,7 +37,7 @@ public:
 	void handleEvent(const sf::Event& event) {
 		if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
 			if (keyPressed->code == sf::Keyboard::Key::Space) {
-				bird.jump();
+				bird.jump(jumpVelocity);
 			}
 		}
 	}
@@ -49,6 +55,13 @@ public:
 
 	std::array<Pipe, 4>& getPipes() {
 		return pipes;
+	}
+
+	void updateHeightOfBottomPipes() {
+		auto& p1 = pipes[1];
+		auto& p2 = pipes[3];
+		p1.setPosition({ p1.getPosition().x, BottomPipeY });
+		p2.setPosition({ p2.getPosition().x, BottomPipeY });
 	}
 
 private:
