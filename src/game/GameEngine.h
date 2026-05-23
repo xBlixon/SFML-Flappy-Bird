@@ -53,13 +53,12 @@ public:
 
 			sf::Time dt = deltaClock.restart();
 
-			debug.show(dt);
-
             if (state == State::Paused) {
                 entityManager.updateAll(dt.asSeconds());
             }
             entityManager.drawAll(window);
 
+			debug.show(dt);
 
             window.display();
         }
