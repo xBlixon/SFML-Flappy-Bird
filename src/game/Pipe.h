@@ -12,6 +12,9 @@ private:
 public:
 	void update(float dt) override {
 		sprite.move({ -100.f * dt, 0.f });
+		if(sprite.getPosition().x < -20.f) {
+			sprite.setPosition({ 400.f, sprite.getPosition().y });
+		}
 	}
 
 	static Pipe TopPipe(bool closer) {
@@ -32,7 +35,7 @@ public:
 			{
 				closer ? 200.f : 400.f
 				,
-				100.f
+				150.f
 			}
 		);
 		return pipe;

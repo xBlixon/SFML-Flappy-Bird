@@ -40,10 +40,6 @@ public:
 	void run() {
         ImGui::SFML::Init(window);
 
-        ImVec4 color(0.f, 0.8f, 0.f, 1.f);
-
-        sf::CircleShape shape(100.f);
-
         sf::Clock deltaClock;
         while (window.isOpen()) {
 
@@ -52,23 +48,19 @@ public:
             }
             window.clear();
 
-            ImGui::SFML::Update(window, deltaClock.restart());
+			sf::Time dt = deltaClock.restart();
 
-            ImGui::ShowDemoWindow();
+            {
+                ImGui::SFML::Update(window, dt);
 
-            ImGui::Begin("Hello, world!");
-            ImGui::ColorEdit3("MyColor##1", (float*)&color);
-            ImGui::End();
+                ImGui::ShowDemoWindow();
 
-            shape.setFillColor(ISConvert::imVec4ToSfColor(color));
-            window.draw(shape);
+                ImGui::SFML::Render(window);
+            }
 
-			entityManager.drawAll(window);
-
-            ImGui::SFML::Render(window);
+            entityManager.updateAll(dt.asSeconds());
+            entityManager.drawAll(window);
             window.display();
-
-
         }
 
         ImGui::SFML::Shutdown();
