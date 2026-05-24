@@ -15,9 +15,9 @@ public:
 
 	void show(sf::Time dt);
 
-	void pauseButton();
+	void gameState();
 
-	void pipeGap();
+	void pipes();
 
-	void birdGravity();
+	void bird();
 };

@@ -3,76 +3,51 @@
 #include "GameObject.h"
 #include "Bird.h"
 #include "Pipe.h"
+#include "Obstacle.h"
 #include <array>
 
 class EntityManager
 {
 private:
 	Bird bird;
-	std::array<Pipe, 4> pipes;
+	Obstacle obstacle1{ true  };
+	Obstacle obstacle2{ false };
 public:
-	float BottomPipeY;
-	float jumpVelocity = 50.f;
+	float pipeGap = 100.f;
+	float jumpForce = 50.f;
 	float &gravityForce;
 
 	EntityManager()
-		: pipes{
-			Pipe::TopPipe(true),
-			Pipe::BottomPipe(true),
-
-			Pipe::TopPipe(false),
-			Pipe::BottomPipe(false)
-		}, gravityForce(bird.gravityForce)
+		: gravityForce(bird.gravityForce)
 	{
-		BottomPipeY = pipes[1].getPosition().y;
 	}
 
 	void drawAll(sf::RenderWindow& window) {
 		bird.draw(window);
-		for (auto& pipe : pipes) {
-			pipe.draw(window);
-		}
+		obstacle1.draw(window);
+		obstacle2.draw(window);
 	}
 
 	void handleEvent(const sf::Event& event) {
 		if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
 			if (keyPressed->code == sf::Keyboard::Key::Space) {
-				bird.jump(jumpVelocity);
+				bird.jump(jumpForce);
 			}
 		}
 	}
 
 	void updateAll(float dt) {
 		bird.update(dt);
-		for (auto& pipe : pipes) {
-			pipe.update(dt);
-		}
+		obstacle1.update(dt);
+		obstacle2.update(dt);
 	}
 
 	Bird& getBird() {
 		return bird;
 	}
 
-	std::array<Pipe, 4>& getPipes() {
-		return pipes;
-	}
-
-	void updateHeightOfBottomPipes() {
-		auto& p1 = pipes[1];
-		auto& p2 = pipes[3];
-		p1.setPosition({ p1.getPosition().x, BottomPipeY });
-		p2.setPosition({ p2.getPosition().x, BottomPipeY });
-	}
-
-private:
-	std::array<Pipe, 4>::iterator getCloserPipe() {
-		std::array<Pipe, 4>::iterator closerPipe = pipes.begin();
-		for (auto it = pipes.begin(); it != pipes.end(); it+=2) {
-			auto pipe = *it;
-			if (pipe.getPosition().x < closerPipe->getPosition().x) {
-				closerPipe = it;
-			}
-		}
-		return closerPipe;
+	void updatePipeGap() {
+		obstacle1.setGap(pipeGap);
+		obstacle2.setGap(pipeGap);
 	}
 };

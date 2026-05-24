@@ -7,14 +7,14 @@ ImGuiDebug::ImGuiDebug(GameEngine* gameEngine) : gameEngine(gameEngine) {
 
 void ImGuiDebug::show(sf::Time dt) {
 	ImGui::SFML::Update(gameEngine->window, dt);
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	ImGui::Begin("Game editor");
 
 
-	pauseButton();
-	pipeGap();
-	birdGravity();
+	gameState();
+	pipes();
+	bird();
 
 
 	ImGui::End();
@@ -22,7 +22,7 @@ void ImGuiDebug::show(sf::Time dt) {
 	ImGui::SFML::Render(gameEngine->window);
 }
 
-void ImGuiDebug::pauseButton() {
+void ImGuiDebug::gameState() {
 	ImGui::SeparatorText("Game status");
 	if (gameEngine->state == State::Paused) {
 		if (ImGui::Button("Paused")) {
@@ -37,15 +37,16 @@ void ImGuiDebug::pauseButton() {
 	}
 }
 
-void ImGuiDebug::pipeGap() {
+void ImGuiDebug::pipes() {
 	ImGui::SeparatorText("Pipes");
-	if ( ImGui::DragFloat("Bottom Y", &gameEngine->entityManager.BottomPipeY, 0.5f) )
+	if ( ImGui::DragFloat("Gap", &gameEngine->entityManager.pipeGap, 0.5f) )
 	{
-		gameEngine->entityManager.updateHeightOfBottomPipes();
+		gameEngine->entityManager.updatePipeGap();
 	}
 }
 
-void ImGuiDebug::birdGravity() {
+void ImGuiDebug::bird() {
 	ImGui::SeparatorText("Bird");
-	ImGui::DragFloat("Gravity", &gameEngine->entityManager.gravityForce, 0.5f);
+	ImGui::DragFloat("Jump force   ", &gameEngine->entityManager.jumpForce,    0.5f);
+	ImGui::DragFloat("Gravity force", &gameEngine->entityManager.gravityForce, 0.5f);
 }
