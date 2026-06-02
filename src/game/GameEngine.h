@@ -27,7 +27,8 @@ public:
 
 	GameEngine()
         : state(State::MainMenu), 
-        userEventsHandler(this)
+        userEventsHandler(this),
+		entityManager(this)
     {
 
 		window.create(sf::VideoMode({ 1280, 720 }), "Flappy Bird Clone");
@@ -65,4 +66,9 @@ public:
 
         ImGui::SFML::Shutdown();
 	}
+
+    void restart() {
+		entityManager.reset();
+		state = State::Paused;
+    }
 };

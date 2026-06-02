@@ -19,7 +19,7 @@ private:
 public:
 	Obstacle(bool closer) 
 		: topPipe (Pipe::TopPipe   (closer)), 
-		bottomPipe(Pipe::BottomPipe(closer)) 
+		bottomPipe(Pipe::BottomPipe(closer))
 	{
 		rerollVerticalOffset();
 		topPipe.sprite.move(
@@ -84,5 +84,20 @@ public:
 				}
 			);
 		}
+	}
+
+	Pipe& getTopPipe() {
+		return topPipe;
+	}
+
+	Pipe& getBottomPipe() {
+		return bottomPipe;
+	}
+
+	void reset() {
+		rerollVerticalOffset();
+		topPipe.reset();
+		bottomPipe.reset();
+		setGap(gap); // Update vertical offset after resetting position
 	}
 };

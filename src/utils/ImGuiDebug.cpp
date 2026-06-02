@@ -24,17 +24,28 @@ void ImGuiDebug::show(sf::Time dt) {
 
 void ImGuiDebug::gameState() {
 	ImGui::SeparatorText("Game status");
-	if (gameEngine->state == State::Paused) {
-		if (ImGui::Button("Paused")) {
-			gameEngine->state = State::Playing;
-		}
-	}
-	else
+
+	switch (gameEngine->state)
 	{
+	case State::MainMenu:
+		break;
+	case State::Playing:
 		if (ImGui::Button("Playing")) {
 			gameEngine->state = State::Paused;
 		}
+		break;
+	case State::Paused:
+		if (ImGui::Button("Paused")) {
+			gameEngine->state = State::Playing;
+		}
+		break;
+	case State::GameOver:
+		if (ImGui::Button("Game Over")) {
+			gameEngine->restart();
+		}
+		break;
 	}
+	
 }
 
 void ImGuiDebug::pipes() {

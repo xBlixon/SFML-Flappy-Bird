@@ -21,4 +21,9 @@ public:
 	void jump(float velocity) {
 		verticalVelocity = velocity;
 	}
+
+	void reset() {
+		verticalVelocity = 0.f;
+		sprite.setPosition({ 10.f, 50.f });
+	}
 };

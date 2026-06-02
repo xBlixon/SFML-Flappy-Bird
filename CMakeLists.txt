@@ -10,6 +10,7 @@ add_executable(main
 	src/utils/ISConvert.h
 	src/game/GameEngine.h
 	src/game/EntityManager.h
+	src/game/EntityManager.cpp
 	src/game/ScoreManager.h
 	src/game/State.h
 	src/game/UserEventsHandler.h
