@@ -11,6 +11,8 @@ class UserEventsHandler
 {
 private:
     GameEngine* gameEngine;
+    sf::Vector2i lastMousePos;
+    bool isDragging = false;
 
 public:
     UserEventsHandler(GameEngine* gameEngine);
