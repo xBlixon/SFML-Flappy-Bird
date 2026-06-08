@@ -11,7 +11,7 @@ private:
 	float resetBoundary = -20.f;
 	float gap = 100.f;
 	std::mt19937 rng{ std::random_device{}() };
-	std::uniform_real_distribution<float> distribution{ 0.f, 100.f };
+	std::uniform_real_distribution<float> distribution{ -150.f, 150.f };
 
 	Pipe topPipe;
 	Pipe bottomPipe;
@@ -22,18 +22,18 @@ public:
 		bottomPipe(Pipe::BottomPipe(closer))
 	{
 		rerollVerticalOffset();
-		topPipe.sprite.move(
-			{
-				0.f,
-				verticalOffset - gap / 2
-			}
-		);
-		bottomPipe.sprite.move(
-			{
-				0.f,
-				verticalOffset + gap / 2
-			}
-		);
+		//topPipe.sprite.move(
+		//	{
+		//		0.f,
+		//		verticalOffset - gap / 2
+		//	}
+		//);
+		//bottomPipe.sprite.move(
+		//	{
+		//		0.f,
+		//		verticalOffset + gap / 2
+		//	}
+		//);
 	};
 
 	void draw(sf::RenderWindow& window) {
@@ -48,17 +48,17 @@ public:
 	void setGap(float gap) {
 		this->gap = gap;
 
-		topPipe.sprite.setPosition(
+		topPipe.setPosition(
 			{
-				topPipe.sprite.getPosition().x,
-				verticalOffset - this->gap / 2
+				topPipe.getPosition().x,
+				-topPipe.sprite.getSize().y + verticalOffset - this->gap / 2
 			}
 		);
 
-		bottomPipe.sprite.setPosition(
+		bottomPipe.setPosition(
 			{
-				bottomPipe.sprite.getPosition().x,
-				topPipe.sprite.getSize().y + this->gap/2 + verticalOffset
+				bottomPipe.getPosition().x,
+				this->gap/2 + verticalOffset
 			}
 			);
 	}
@@ -67,20 +67,20 @@ public:
 		float resetPositionX = 400.f;
 		topPipe.update(dt);
 		bottomPipe.update(dt);
-		if (topPipe.sprite.getPosition().x < resetBoundary) {
+		if (topPipe.getPosition().x < resetBoundary) {
 			rerollVerticalOffset();
 
-			topPipe.sprite.setPosition(
+			topPipe.setPosition(
 				{
 					resetPositionX,
-					verticalOffset - this->gap / 2
+					-topPipe.sprite.getSize().y + verticalOffset - gap / 2
 				}
 			);
 
-			bottomPipe.sprite.setPosition(
+			bottomPipe.setPosition(
 				{ 
 					resetPositionX,
-					topPipe.sprite.getSize().y + gap/2 + verticalOffset 
+					verticalOffset + gap / 2
 				}
 			);
 		}

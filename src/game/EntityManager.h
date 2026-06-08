@@ -14,9 +14,10 @@ private:
 	Bird bird;
 	Obstacle obstacle1{ true  };
 	Obstacle obstacle2{ false };
+	sf::RectangleShape background;
 public:
 	float pipeGap = 100.f;
-	float jumpForce = 50.f;
+	float &jumpForce;
 	float &gravityForce;
 
 	EntityManager(GameEngine* gameEngine);

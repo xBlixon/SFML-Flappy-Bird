@@ -6,7 +6,8 @@ class Bird : public GameObject
 {
 public:
 	float verticalVelocity = 0.f;
-	float gravityForce = 100.f;
+	float jumpForce = 150.f;
+	float gravityForce = 200.f;
 
 	Bird() {
 		sprite.setSize({ 20.f, 20.f });
@@ -24,6 +25,6 @@ public:
 
 	void reset() {
 		verticalVelocity = 0.f;
-		sprite.setPosition({ 10.f, 50.f });
+		setPosition({ 0.f, 0.f });
 	}
 };

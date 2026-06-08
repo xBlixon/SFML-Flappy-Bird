@@ -9,7 +9,7 @@ private:
 	float isCloser = false;
     static constexpr float initialX = 400.f;
     static constexpr float width = 20.f;
-    static constexpr float height = 50.f;
+    static constexpr float height = 500.f;
 
     Pipe() {
         sprite.setSize({ width, height });
@@ -30,7 +30,6 @@ public:
         else {
 			x = initialX;
         }
-        pipe.sprite.setPosition({x, 0});
         return pipe;
     }
 
@@ -44,16 +43,15 @@ public:
         else {
             x = initialX;
         }
-        pipe.sprite.setPosition({x, height});
         return pipe;
     }
 
     void reset() {
         if (isCloser) {
-            sprite.setPosition({ initialX * 0.5f, sprite.getPosition().y });
+            sprite.setPosition({ initialX * 0.5f, getPosition().y });
         }
         else {
-            sprite.setPosition({ initialX, sprite.getPosition().y });
+            sprite.setPosition({ initialX, getPosition().y });
         }
 	}
 };

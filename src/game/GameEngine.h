@@ -24,6 +24,7 @@ public:
 	ScoreManager scoreManager;
     UserEventsHandler userEventsHandler;
 	State state;
+	bool debugMode = true;
 
 	GameEngine()
         : state(State::MainMenu), 
@@ -35,7 +36,7 @@ public:
 		window.setFramerateLimit(60);
         window.setKeyRepeatEnabled(false);
 
-        view = sf::View(sf::FloatRect({ 0.f, 0.f }, { 1280, 720 }));
+        view = sf::View(sf::FloatRect({ -640.f, -360.f }, { 1280, 720 }));
         window.setView(view);
     }
 
@@ -59,7 +60,9 @@ public:
             }
             entityManager.drawAll(window);
 
-			debug.show(dt);
+            if (debugMode) {
+                debug.show(dt);
+            }
 
             window.display();
         }
@@ -71,4 +74,19 @@ public:
 		entityManager.reset();
 		state = State::Paused;
     }
+
+    void enableDebugMode() {
+		debugMode = true;
+    }
+
+	void disableDebugMode() {
+        debugMode = false;
+		resetView();
+	}
+
+    void resetView() {
+        view.setCenter({ 0.f, 0.f });
+        view.setSize({ 1280.f, 720.f });
+        window.setView(view);
+	}
 };

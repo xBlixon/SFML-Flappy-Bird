@@ -1,7 +1,6 @@
-// UserEventsHandler.cpp
 #include <iostream>
 #include <game/UserEventsHandler.h>
-#include "GameEngine.h"  // Tutaj ju¿ mo¿emy bezpiecznie do³¹czyæ
+#include "GameEngine.h" 
 #include "imgui.h"
 
 UserEventsHandler::UserEventsHandler(GameEngine* gameEngine) : gameEngine(gameEngine) {}
@@ -20,7 +19,7 @@ void UserEventsHandler::handle(const sf::Event& event) {
         bool ctrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) ||
             sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl);
 
-        if (ctrlPressed) {
+        if (ctrlPressed && gameEngine->debugMode) {
             if (scrolled->delta > 0) {
                 view().zoom(0.9f);
             }
@@ -33,33 +32,34 @@ void UserEventsHandler::handle(const sf::Event& event) {
     }
 
     if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
-        if (mousePressed->button == sf::Mouse::Button::Middle) {
+        if (mousePressed->button == sf::Mouse::Button::Middle && gameEngine->debugMode) {
             isDragging = true;
             lastMousePos = mousePressed->position;
-			std::cout << "Mouse pressed at: X: " << lastMousePos.x << " Y: " << lastMousePos.y << std::endl;
         }
     }
 
     if (const auto* mouseReleased = event.getIf<sf::Event::MouseButtonReleased>()) {
         if (mouseReleased->button == sf::Mouse::Button::Middle) {
             isDragging = false;
-			std::cout << "Mouse released at: X: " << mouseReleased->position.x << " Y: " << mouseReleased->position.y << std::endl;
         }
     }
 
     if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>()) {
-		std::cout << "Mouse moved at: X: " << mouseMoved->position.x << " Y: " << mouseMoved->position.y << std::endl;
         if (isDragging) {
             float deltaX = static_cast<float>(mouseMoved->position.x - lastMousePos.x);
             float deltaY = static_cast<float>(mouseMoved->position.y - lastMousePos.y);
-
-			std::cout << "X: " << deltaX << " Y: " << deltaY << std::endl;
 
             view().move({ -deltaX, -deltaY });
             window().setView(view());
 
             lastMousePos = mouseMoved->position;
         }
+    }
+
+    if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
+        if (keyPressed->code == sf::Keyboard::Key::F3) {
+			gameEngine->debugMode ? gameEngine->disableDebugMode() : gameEngine->enableDebugMode();
+		}
     }
 
 	entityManager().handleEvent(event);

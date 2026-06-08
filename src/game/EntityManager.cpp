@@ -6,12 +6,17 @@
 
 EntityManager::EntityManager(GameEngine* gameEngine)
 	: gravityForce(bird.gravityForce),
+	  jumpForce(bird.jumpForce),
 	  gameEngine(gameEngine)
 {
+	background.setSize({ 1280.f, 720.f });
+	background.setFillColor(sf::Color(30, 125, 189));
+	background.setOrigin(background.getSize() / 2.f);
 	reset();
 }
 
 void EntityManager::drawAll(sf::RenderWindow& window) {
+	window.draw(background);
 	bird.draw(window);
 	obstacle1.draw(window);
 	obstacle2.draw(window);
@@ -51,7 +56,7 @@ void EntityManager::updatePipeGap() {
 }
 
 Obstacle& EntityManager::getCloserObstacle() {
-	if (obstacle1.getTopPipe().sprite.getPosition().x < obstacle2.getTopPipe().sprite.getPosition().x) {
+	if (obstacle1.getTopPipe().getPosition().x < obstacle2.getTopPipe().getPosition().x) {
 		return obstacle1;
 	}
 	else {
