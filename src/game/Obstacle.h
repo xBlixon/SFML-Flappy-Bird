@@ -8,7 +8,7 @@ class Obstacle
 {
 private:
 	float verticalOffset;
-	float resetBoundary = -20.f;
+	float resetBoundary = -60.f;
 	float gap = 100.f;
 	std::mt19937 rng{ std::random_device{}() };
 	std::uniform_real_distribution<float> distribution{ -150.f, 150.f };

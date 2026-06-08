@@ -8,7 +8,7 @@ private:
     float speed = 100.f;
 	float isCloser = false;
     static constexpr float initialX = 400.f;
-    static constexpr float width = 20.f;
+    static constexpr float width = 30.f;
     static constexpr float height = 500.f;
 
     Pipe() {
