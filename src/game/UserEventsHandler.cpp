@@ -60,6 +60,29 @@ void UserEventsHandler::handle(const sf::Event& event) {
         if (keyPressed->code == sf::Keyboard::Key::F3) {
 			gameEngine->debugMode ? gameEngine->disableDebugMode() : gameEngine->enableDebugMode();
 		}
+
+        if(keyPressed->code == sf::Keyboard::Key::Space) {
+            // return is used instead of break to avoid
+			// propagating the space key event to the EntityManager 
+            // causing jump in the first frame
+            switch (gameEngine->state) {
+                case State::MainMenu:
+                    gameEngine->state = State::Playing;
+                    return;
+                case State::Paused:
+                    gameEngine->state = State::Playing;
+                    return;
+                case State::GameOver:
+                    gameEngine->restart();
+                    return;
+            }
+		}
+
+        if(keyPressed->code == sf::Keyboard::Key::Escape) {
+            if(gameEngine->state == State::Playing) {
+				gameEngine->pause();
+            }
+		}
     }
 
 	entityManager().handleEvent(event);

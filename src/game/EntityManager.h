@@ -4,6 +4,7 @@
 #include "Bird.h"
 #include "Pipe.h"
 #include "Obstacle.h"
+#include "Menu.h"
 
 class GameEngine;
 
@@ -17,6 +18,7 @@ private:
 	sf::RectangleShape background;
 	sf::Font scoreFont;
 	sf::Text scoreText;
+	Menu menu;
 public:
 	float pipeGap = 100.f;
 	float &jumpForce;
@@ -31,4 +33,7 @@ public:
 	void updatePipeGap();
 	Obstacle& getCloserObstacle();
 	void reset();
+	void pause();
+	void gameOver();
+	void resetScoreText();
 };

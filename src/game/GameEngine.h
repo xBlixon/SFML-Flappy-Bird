@@ -72,7 +72,17 @@ public:
 
     void restart() {
 		entityManager.reset();
+		state = State::MainMenu;
+    }
+   
+    void pause() {
+		entityManager.pause();
 		state = State::Paused;
+    }
+
+    void gameOver() {
+		entityManager.gameOver();
+		state = State::GameOver;
     }
 
     void enableDebugMode() {

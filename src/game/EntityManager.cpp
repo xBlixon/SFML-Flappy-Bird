@@ -5,11 +5,12 @@
 #include "State.h"
 #include <iostream>
 
-EntityManager::EntityManager(GameEngine* gameEngine)
-	: gravityForce(bird.gravityForce),
-	  jumpForce(bird.jumpForce),
-	  gameEngine(gameEngine),
-	  scoreText(scoreFont)
+EntityManager::EntityManager(GameEngine* gameEngine) :
+	gravityForce(bird.gravityForce),
+	jumpForce(bird.jumpForce),
+	gameEngine(gameEngine),
+	scoreText(scoreFont),
+	menu("arial.ttf")
 {
 	gameEngine->scoreManager.setText(&scoreText); //Must be set 
 
@@ -20,10 +21,7 @@ EntityManager::EntityManager(GameEngine* gameEngine)
 	{
 		scoreText.setFont(scoreFont);
 	}
-
 	scoreText.setCharacterSize(40);
-	scoreText.setString("0");
-	scoreText.setPosition({ 0, -360 });
 
 	background.setSize({ 1280.f, 720.f });
 	background.setFillColor(sf::Color(30, 125, 189));
@@ -39,6 +37,10 @@ void EntityManager::drawAll(sf::RenderWindow& window) {
 
 	// Overlay
 	window.draw(scoreText);
+
+	if(gameEngine->state != State::Playing) {
+		menu.draw(window);
+	}
 }
 
 void EntityManager::handleEvent(const sf::Event& event) {
@@ -61,14 +63,12 @@ void EntityManager::updateAll(float dt) {
 	if (bird.sprite.getGlobalBounds().findIntersection(top.sprite.getGlobalBounds()) ||
 		bird.sprite.getGlobalBounds().findIntersection(bottom.sprite.getGlobalBounds())) {
 
-		gameEngine->state = State::GameOver;
+		gameEngine->gameOver();
 	}
 
 	if (closerObstacle.getTopPipe().getPosition().x < bird.getPosition().x) {
 		gameEngine->scoreManager.handle(closerObstacle);
 	}
-
-	//scoreText.setString(std::to_string(gameEngine->scoreManager.getScore()));
 }
 
 Bird& EntityManager::getBird() {
@@ -90,7 +90,25 @@ Obstacle& EntityManager::getCloserObstacle() {
 }
 
 void EntityManager::reset() {
+	resetScoreText();
+	menu.displayMainMenu();
 	bird.reset();
 	obstacle1.reset();
 	obstacle2.reset();
+}
+
+void EntityManager::resetScoreText() {
+	gameEngine->scoreManager.resetScore();
+	scoreText.setString("Score: 0 Best: " + std::to_string(gameEngine->scoreManager.getHighScore()));
+	sf::Vector2f boundsSize = scoreText.getLocalBounds().size;
+	scoreText.setOrigin({ boundsSize.x / 2, 0 });
+	scoreText.setPosition({ 0, -360 });
+}
+
+void EntityManager::pause() {
+	menu.displayPaused();
+}
+
+void EntityManager::gameOver() {
+	menu.displayGameOver();
 }
