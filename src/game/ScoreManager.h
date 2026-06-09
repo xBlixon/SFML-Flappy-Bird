@@ -17,6 +17,13 @@ private:
 	fs::path highScorePath = "highscore.txt";
 
 public:
+	ScoreManager() {
+		std::ifstream highScoreFile(highScorePath);
+		if (highScoreFile.is_open()) {
+			highScoreFile >> highScore;
+			highScoreFile.close();
+		}
+	}
 
 	void setText(sf::Text* text) {
 		scoreText = text;

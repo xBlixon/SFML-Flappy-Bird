@@ -8,6 +8,7 @@ class Menu : public GameObject
 private:
 	sf::Font font;
 	sf::Text text;
+	sf::RectangleShape textBackground;
 
 public:
 	Menu(std::string fontPath) : text(font) {
@@ -24,6 +25,8 @@ public:
 			text.setFont(font);
 			text.setCharacterSize(30);
 			text.setFillColor(sf::Color::White);
+
+			textBackground.setFillColor(sf::Color(0, 0, 0, 150));
 			displayMainMenu();
 			/*sprite.setSize({ boundsSize.x + 20, boundsSize.y + 20 });
 			sprite.setOrigin(sprite.getSize() / 2.f);
@@ -38,6 +41,7 @@ public:
 
 	void draw(sf::RenderWindow& window) {
 		window.draw(sprite);
+		window.draw(textBackground);
 		window.draw(text);
 	}
 
@@ -61,5 +65,9 @@ private:
 		sf::Vector2f boundsSize = text.getLocalBounds().size;
 		text.setOrigin(boundsSize / 2.f);
 		text.setPosition({ 0, 100 });
+
+		textBackground.setSize(boundsSize + sf::Vector2f(20, 20));
+		textBackground.setOrigin(textBackground.getSize() / 2.f);
+		textBackground.setPosition(text.getPosition() + sf::Vector2f(0.f, 5.f));
 	}
 };
