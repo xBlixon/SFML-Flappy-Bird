@@ -42,7 +42,6 @@ public:
 
 	void run() {
         sf::Clock deltaClock;
-		state = State::Paused;
 
         ImGuiDebug debug = ImGuiDebug(this);
 

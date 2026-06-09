@@ -29,6 +29,9 @@ void ImGuiDebug::gameState() {
 	switch (gameEngine->state)
 	{
 	case State::MainMenu:
+		if (ImGui::Button("Main Menu")) {
+			gameEngine->state = State::Playing;
+		}
 		break;
 	case State::Playing:
 		if (ImGui::Button("Playing")) {
