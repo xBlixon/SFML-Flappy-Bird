@@ -20,8 +20,8 @@ class GameEngine
 public:
 	sf::RenderWindow window;
 	sf::View view;
-	EntityManager entityManager;
 	ScoreManager scoreManager;
+	EntityManager entityManager;
     UserEventsHandler userEventsHandler;
 	State state;
 	bool debugMode = true;

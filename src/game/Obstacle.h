@@ -7,6 +7,7 @@
 class Obstacle
 {
 private:
+	float resetPositionX = 400.f;
 	float verticalOffset;
 	float resetBoundary = -60.f;
 	float gap = 100.f;
@@ -17,6 +18,8 @@ private:
 	Pipe bottomPipe;
 
 public:
+	bool wasScored = false;
+
 	Obstacle(bool closer) 
 		: topPipe (Pipe::TopPipe   (closer)), 
 		bottomPipe(Pipe::BottomPipe(closer))
@@ -51,7 +54,7 @@ public:
 		topPipe.setPosition(
 			{
 				topPipe.getPosition().x,
-				-topPipe.sprite.getSize().y + verticalOffset - this->gap / 2
+				verticalOffset - this->gap / 2
 			}
 		);
 
@@ -64,16 +67,16 @@ public:
 	}
 
 	void update(float dt) {
-		float resetPositionX = 400.f;
 		topPipe.update(dt);
 		bottomPipe.update(dt);
 		if (topPipe.getPosition().x < resetBoundary) {
+			wasScored = false;
 			rerollVerticalOffset();
 
 			topPipe.setPosition(
 				{
 					resetPositionX,
-					-topPipe.sprite.getSize().y + verticalOffset - gap / 2
+					verticalOffset - gap / 2
 				}
 			);
 
@@ -95,9 +98,15 @@ public:
 	}
 
 	void reset() {
+		wasScored = false;
 		rerollVerticalOffset();
 		topPipe.reset();
 		bottomPipe.reset();
 		setGap(gap); // Update vertical offset after resetting position
 	}
+
+	bool operator==(const Obstacle& other) const {
+		return topPipe.getPosition() == other.topPipe.getPosition();
+	}
+
 };

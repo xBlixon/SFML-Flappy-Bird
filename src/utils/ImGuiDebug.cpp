@@ -12,6 +12,7 @@ void ImGuiDebug::show(sf::Time dt) {
 	ImGui::Begin("Game editor");
 
 
+	score();
 	gameState();
 	pipes();
 	bird();
@@ -60,4 +61,9 @@ void ImGuiDebug::bird() {
 	ImGui::SeparatorText("Bird");
 	ImGui::DragFloat("Jump force   ", &gameEngine->entityManager.jumpForce,    0.5f);
 	ImGui::DragFloat("Gravity force", &gameEngine->entityManager.gravityForce, 0.5f);
+}
+
+void ImGuiDebug::score() {
+	ImGui::SeparatorText("Score");
+	ImGui::Text("Score: %d", gameEngine->scoreManager.getScore());
 }

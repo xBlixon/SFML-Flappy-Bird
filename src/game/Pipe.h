@@ -22,27 +22,15 @@ public:
 
     static Pipe TopPipe(bool closer) {
         Pipe pipe;
+		pipe.sprite.setOrigin({ width, height });
 		pipe.isCloser = closer;
-        float x;
-        if (pipe.isCloser) {
-			x = initialX * 0.5;
-        }
-        else {
-			x = initialX;
-        }
         return pipe;
     }
 
     static Pipe BottomPipe(bool closer) {
         Pipe pipe;
+		pipe.sprite.setOrigin({ width, 0.f });
         pipe.isCloser = closer;
-        float x;
-        if (pipe.isCloser) {
-            x = initialX * 0.5;
-        }
-        else {
-            x = initialX;
-        }
         return pipe;
     }
 

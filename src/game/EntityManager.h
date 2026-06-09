@@ -15,6 +15,8 @@ private:
 	Obstacle obstacle1{ true  };
 	Obstacle obstacle2{ false };
 	sf::RectangleShape background;
+	sf::Font scoreFont;
+	sf::Text scoreText;
 public:
 	float pipeGap = 100.f;
 	float &jumpForce;

@@ -20,4 +20,6 @@ public:
 	void pipes();
 
 	void bird();
+
+	void score();
 };
