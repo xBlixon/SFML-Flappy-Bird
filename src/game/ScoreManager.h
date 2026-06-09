@@ -4,6 +4,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 
 namespace fs = std::filesystem;
 
@@ -67,10 +68,14 @@ public:
 	}
 
 	void save() {
-		std::ofstream highScoreFile(highScorePath);
-		if (highScoreFile.is_open()) {
-			highScoreFile << highScore;
-			highScoreFile.close();
-		}
+		int scoreToSave = highScore; // Memory-safe highscore snapshot
+
+		std::thread([this, scoreToSave]() {
+			std::ofstream highScoreFile(highScorePath);
+			if (highScoreFile.is_open()) {
+				highScoreFile << scoreToSave;
+				highScoreFile.close();
+			}
+			}).detach();
 	}
 };

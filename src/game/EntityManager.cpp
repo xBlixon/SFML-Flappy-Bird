@@ -4,6 +4,7 @@
 #include "GameEngine.h"
 #include "State.h"
 #include <iostream>
+#include "utils/Concepts.h"
 
 EntityManager::EntityManager(GameEngine* gameEngine) :
 	gravityForce(bird.gravityForce),
@@ -31,16 +32,22 @@ EntityManager::EntityManager(GameEngine* gameEngine) :
 
 void EntityManager::drawAll(sf::RenderWindow& window) {
 	window.draw(background);
-	bird.draw(window);
-	obstacle1.draw(window);
-	obstacle2.draw(window);
+	drawComponent(bird, window);
+	drawComponent(obstacle1, window);
+	drawComponent(obstacle2, window);
+
 
 	// Overlay
 	window.draw(scoreText);
 
 	if(gameEngine->state != State::Playing) {
-		menu.draw(window);
+		drawComponent(menu, window);
 	}
+}
+
+template <Renderable T>
+void EntityManager::drawComponent(T& component, sf::RenderWindow& window) {
+	component.draw(window);
 }
 
 void EntityManager::handleEvent(const sf::Event& event) {

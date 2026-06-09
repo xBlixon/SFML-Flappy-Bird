@@ -5,6 +5,7 @@
 #include "Pipe.h"
 #include "Obstacle.h"
 #include "Menu.h"
+#include "utils/Concepts.h"
 
 class GameEngine;
 
@@ -29,6 +30,10 @@ public:
 	void drawAll(sf::RenderWindow& window);
 	void handleEvent(const sf::Event& event);
 	void updateAll(float dt);
+
+	template <Renderable T>
+	void drawComponent(T& component, sf::RenderWindow& window);
+
 	Bird& getBird();
 	void updatePipeGap();
 	Obstacle& getCloserObstacle();
