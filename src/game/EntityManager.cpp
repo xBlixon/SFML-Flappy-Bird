@@ -5,13 +5,14 @@
 #include "State.h"
 #include <iostream>
 #include "utils/Concepts.h"
+#include <algorithm>
 
 EntityManager::EntityManager(GameEngine* gameEngine) :
 	gravityForce(bird.gravityForce),
 	jumpForce(bird.jumpForce),
 	gameEngine(gameEngine),
 	scoreText(scoreFont),
-	menu("arial.ttf")
+	menu("arial.ttf", &gameEngine->scoreManager)
 {
 	gameEngine->scoreManager.setText(&scoreText); //Must be set 
 
@@ -71,6 +72,7 @@ void EntityManager::updateAll(float dt) {
 		bird.sprite.getGlobalBounds().findIntersection(bottom.sprite.getGlobalBounds())) {
 
 		gameEngine->gameOver();
+		menu.updateHistory();
 	}
 
 	if (closerObstacle.getTopPipe().getPosition().x < bird.getPosition().x) {

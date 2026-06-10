@@ -24,7 +24,7 @@ public:
 	EntityManager entityManager;
     UserEventsHandler userEventsHandler;
 	State state;
-	bool debugMode = true;
+	bool debugMode = false;
 
 	GameEngine()
         : state(State::MainMenu), 
@@ -83,6 +83,7 @@ public:
     void gameOver() {
 		entityManager.gameOver();
 		state = State::GameOver;
+        scoreManager.addCurrentGameToHistory();
     }
 
     void enableDebugMode() {

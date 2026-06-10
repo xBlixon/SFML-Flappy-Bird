@@ -1,17 +1,23 @@
 #pragma once
 
 #include <iostream>
+#include <ranges>
+#include "ScoreManager.h"
 #include "GameObject.h"
 
 class Menu : public GameObject
 {
 private:
+	ScoreManager* scoreManager = nullptr;
 	sf::Font font;
 	sf::Text text;
 	sf::RectangleShape textBackground;
 
+	sf::Text history;
+	sf::RectangleShape historyBackground;
+
 public:
-	Menu(std::string fontPath) : text(font) {
+	Menu(std::string fontPath, ScoreManager* manager) : text(font), history(font), scoreManager(manager) {
 		sprite.setSize({ 1280.f, 720.f });
 		sprite.setOrigin(sprite.getSize() / 2.f);
 		sprite.setPosition({ 0.f, 0.f });
@@ -28,10 +34,14 @@ public:
 
 			textBackground.setFillColor(sf::Color(0, 0, 0, 150));
 			displayMainMenu();
-			/*sprite.setSize({ boundsSize.x + 20, boundsSize.y + 20 });
-			sprite.setOrigin(sprite.getSize() / 2.f);
-			sprite.setPosition({ 0.f, 0.f });
-			sprite.setFillColor(sf::Color(0, 0, 0, 150));*/
+
+			history.setFont(font);
+			history.setCharacterSize(20);
+			history.setFillColor(sf::Color::White);
+
+			historyBackground.setFillColor(sf::Color(0, 0, 0, 150));
+
+			updateHistory();
 		}
 	}
 
@@ -43,6 +53,9 @@ public:
 		window.draw(sprite);
 		window.draw(textBackground);
 		window.draw(text);
+
+		window.draw(historyBackground);
+		window.draw(history);
 	}
 
 	void displayGameOver() {
@@ -58,6 +71,34 @@ public:
 	void displayMainMenu() {
 		text.setString("Press Space to Start");
 		centerText();
+	}
+
+	void updateHistory() {
+		if (!scoreManager) return;
+
+		const auto& fullHistory = scoreManager->getHistory();
+		if (fullHistory.empty()) return;
+
+		auto lastFiveGames = fullHistory
+			| std::views::reverse
+			| std::views::take(5);
+
+		std::string historyString = "Recent game history:\n";
+		int index = 1;
+
+		for (const auto& game : lastFiveGames) {
+			historyString += std::to_string(index++) + ". ["
+				+ game.getDateTime() + "] Score: "
+				+ std::to_string(game.getScore()) + "\n";
+		}
+
+		history.setString(historyString);
+
+		history.setPosition({ -620.f, -340.f });
+
+		sf::Vector2f boundsSize = history.getLocalBounds().size;
+		historyBackground.setSize(boundsSize + sf::Vector2f(20.f, 10.f));
+		historyBackground.setPosition(history.getPosition() - sf::Vector2f(10.f, 10.f));
 	}
 
 private:

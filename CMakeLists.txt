@@ -23,6 +23,7 @@ add_executable(main
 	src/game/Obstacle.h
 	src/game/Menu.h
 	src/utils/Concepts.h
+	src/game/GameResult.h
 )
 target_include_directories(main PRIVATE ${imgui_SOURCE_DIR} src)
 target_compile_features(main PRIVATE cxx_std_20)

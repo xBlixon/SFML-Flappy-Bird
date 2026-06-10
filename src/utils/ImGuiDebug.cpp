@@ -1,6 +1,8 @@
 #include "ImGuiDebug.h"
 #include "game/GameEngine.h"
 
+#include <ranges>
+
 ImGuiDebug::ImGuiDebug(GameEngine* gameEngine) : gameEngine(gameEngine) {
 	ImGui::SFML::Init(gameEngine->window);
 }
@@ -12,10 +14,10 @@ void ImGuiDebug::show(sf::Time dt) {
 	ImGui::Begin("Game editor");
 
 
-	score();
 	gameState();
 	pipes();
 	bird();
+	score();
 
 
 	ImGui::End();
@@ -69,4 +71,23 @@ void ImGuiDebug::bird() {
 void ImGuiDebug::score() {
 	ImGui::SeparatorText("Score");
 	ImGui::Text("Score: %d", gameEngine->scoreManager.getScore());
+
+	ImGui::Spacing();
+	ImGui::SeparatorText("Last 5 Games");
+
+	const auto& fullHistory = gameEngine->scoreManager.getHistory();
+
+	if (fullHistory.empty()) {
+		ImGui::TextDisabled("No games recorded yet.");
+	}
+	else {
+		auto lastFiveGames = fullHistory
+			| std::views::reverse
+			| std::views::take(5);
+
+		int index = 1;
+		for (const auto& game : lastFiveGames) {
+			ImGui::Text("%d. [%s] Score: %d", index++, game.getDateTime().c_str(), game.getScore());
+		}
+	}
 }
