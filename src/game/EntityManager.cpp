@@ -1,5 +1,7 @@
 #pragma once
 
+#define FONT "arial.ttf"
+
 #include "EntityManager.h"
 #include "GameEngine.h"
 #include "State.h"
@@ -12,13 +14,20 @@ EntityManager::EntityManager(GameEngine* gameEngine) :
 	jumpForce(bird.jumpForce),
 	gameEngine(gameEngine),
 	scoreText(scoreFont),
-	menu("arial.ttf", &gameEngine->scoreManager)
+	menu(FONT, &gameEngine->scoreManager)
 {
 	gameEngine->scoreManager.setText(&scoreText); //Must be set 
 
-	if (!scoreFont.openFromFile("arial.ttf")) {
+	#if defined(_WIN32)
+	if (!scoreFont.openFromFile(FONT) &&
+		!scoreFont.openFromFile(fs::path("C:\\Windows\\Fonts\\arial.ttf"))) {
+		std::cerr << "Failed to load font for score.\n";
+	}
+	#else
+	if (!scoreFont.openFromFile(FONT)) {
 		std::cerr << "Failed to load font\n";
 	}
+	#endif
 	else
 	{
 		scoreText.setFont(scoreFont);
