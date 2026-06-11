@@ -2,6 +2,7 @@
 
 #include <random>
 #include "Pipe.h"
+#include <thread>
 
 
 class Obstacle
@@ -17,27 +18,17 @@ private:
 	Pipe topPipe;
 	Pipe bottomPipe;
 
+	bool fadeOutTriggered = false;
+
 public:
 	bool wasScored = false;
 
-	Obstacle(bool closer) 
-		: topPipe (Pipe::TopPipe   (closer)), 
-		bottomPipe(Pipe::BottomPipe(closer))
+	Obstacle(bool closer)
+		: topPipe(Pipe::Top, closer),
+		bottomPipe(Pipe::Bottom, closer)
 	{
 		rerollVerticalOffset();
-		//topPipe.sprite.move(
-		//	{
-		//		0.f,
-		//		verticalOffset - gap / 2
-		//	}
-		//);
-		//bottomPipe.sprite.move(
-		//	{
-		//		0.f,
-		//		verticalOffset + gap / 2
-		//	}
-		//);
-	};
+	}
 
 	void draw(sf::RenderWindow& window) {
 		topPipe.draw(window);
@@ -69,23 +60,23 @@ public:
 	void update(float dt) {
 		topPipe.update(dt);
 		bottomPipe.update(dt);
+
+		if (topPipe.getPosition().x < 20.f && !fadeOutTriggered) {
+			fadeOutTriggered = true;
+			topPipe.fadeOut(0.4f);
+			bottomPipe.fadeOut(0.4f);
+		}
+
 		if (topPipe.getPosition().x < resetBoundary) {
 			wasScored = false;
+			fadeOutTriggered = false;
 			rerollVerticalOffset();
 
-			topPipe.setPosition(
-				{
-					resetPositionX,
-					verticalOffset - gap / 2
-				}
-			);
+			topPipe.setPosition({ resetPositionX, verticalOffset - gap / 2 });
+			bottomPipe.setPosition({ resetPositionX, verticalOffset + gap / 2 });
 
-			bottomPipe.setPosition(
-				{ 
-					resetPositionX,
-					verticalOffset + gap / 2
-				}
-			);
+			topPipe.fadeIn(0.5f);
+			bottomPipe.fadeIn(0.5f);
 		}
 	}
 
