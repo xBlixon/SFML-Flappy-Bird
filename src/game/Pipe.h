@@ -16,7 +16,7 @@ private:
     float isCloser = false;
     static constexpr float initialX = 400.f;
     static constexpr float width = 30.f;
-    static constexpr float height = 500.f;
+    static constexpr float height = 600.f;
 
     std::atomic<int> targetAlpha{ 255 };
     std::atomic<AnimState> currentAnim{ AnimState::None };

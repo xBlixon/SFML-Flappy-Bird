@@ -78,7 +78,9 @@ void EntityManager::updateAll(float dt) {
 	Pipe& bottom = closerObstacle.getBottomPipe();
 
 	if (bird.sprite.getGlobalBounds().findIntersection(top.sprite.getGlobalBounds()) ||
-		bird.sprite.getGlobalBounds().findIntersection(bottom.sprite.getGlobalBounds())) {
+		bird.sprite.getGlobalBounds().findIntersection(bottom.sprite.getGlobalBounds()) ||
+		bird.getPosition().y > 375.f // Fall to the ground
+		) {
 
 		gameEngine->gameOver();
 		menu.updateHistory();
