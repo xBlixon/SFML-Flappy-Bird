@@ -5,7 +5,7 @@
 #include "Pipe.h"
 #include "Obstacle.h"
 #include "Menu.h"
-#include "utils/Concepts.h"
+#include "Concepts.h"
 
 class GameEngine;
 

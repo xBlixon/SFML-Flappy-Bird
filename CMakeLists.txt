@@ -22,7 +22,7 @@ add_executable(main
 	src/utils/ImGuiDebug.cpp
 	src/game/Obstacle.h
 	src/game/Menu.h
-	src/utils/Concepts.h
+	src/game/Concepts.h
 	src/game/GameResult.h
 )
 target_include_directories(main PRIVATE ${imgui_SOURCE_DIR} src)

@@ -6,7 +6,7 @@
 #include "GameEngine.h"
 #include "State.h"
 #include <iostream>
-#include "utils/Concepts.h"
+#include "Concepts.h"
 #include <algorithm>
 
 EntityManager::EntityManager(GameEngine* gameEngine) :
