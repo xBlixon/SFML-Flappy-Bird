@@ -55,6 +55,16 @@ In debug mode enabled:
 - Middle mouse button (scrollwheel press) - drag camera to look beyond regular game view.
 - CTRL + scrollwheel - zoom in/out game view.
 
+## Graphical issue
+
+> [!WARNING]
+> In case where no text appear on the screen and unusual white squares are visible, it means that the font was not loaded.
+> 
+> In case of windows there should be no such issue since it first tries arial.ttf from the system font collection, on fail fallbacks
+> to arial.ttf in the same directory of the `.exe`.
+> 
+> In case of unix-based systems the arial.ttf file must be in the same directory as the executable.
+
 ## Remarks
 Due to limited time that I could spend on the project, in multiple spots a spaghetti code can be noticed. 
 It is my first project of this kind and working on it gave me valuable
